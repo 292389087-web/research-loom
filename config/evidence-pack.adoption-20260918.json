@@ -1,0 +1,14 @@
+{
+  "entries": [
+    {"pattern": "data/evals/patch-adoption-20260918/junit-shareable.xml"},
+    {"pattern": "data/evals/patch-adoption-20260918/environment.json"},
+    {"pattern": "data/evals/patch-adoption-20260918/source-manifest.json"},
+    {"pattern": "data/evals/patch-adoption-20260918/semantic-example.json"},
+    {"pattern": "data/evals/patch-adoption-20260918/semantic-example.md"},
+    {"pattern": "docs/archive/PATCH_ADOPTION_20260918.md"},
+    {"pattern": "docs/CURRENT_STATUS.md"},
+    {"pattern": "docs/SEMANTIC_EVALUATION.md"},
+    {"pattern": "docs/REPRODUCIBILITY.md"},
+    {"pattern": "constraints-validated.txt"}
+  ]
+}

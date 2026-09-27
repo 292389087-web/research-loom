@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "days": 10,
+  "dataset": "dataset_526b0b1ead064b2a",
+  "study_id": "study_65f680f7c7284cb1",
+  "attempt_id": "attempt_dd1a045b3a4d41a2",
+  "daily_rows": 18,
+  "phase": "training",
+  "max_daily_reward_component_mean_error": 3.637978807091713e-12,
+  "cuda_peak_allocated_gib": 0.39934539794921875,
+  "training_repeats": 1,
+  "note": "Single-seed engineering regression, not a claim of improved algorithm performance."
+}

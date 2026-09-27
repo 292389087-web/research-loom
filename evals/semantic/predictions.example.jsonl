@@ -1,0 +1,1 @@
+{"id":"fixture-question-1","retrieved_evidence_ids":["paper_fixture_p1_b0_0"],"claims":[{"claim_id":"c1","label":"supported","evidence_ids":["paper_fixture_p1_b0_0"],"human_verdicts":["accepted","accepted"]},{"claim_id":"c2","label":"insufficient","evidence_ids":[],"human_verdicts":["accepted","accepted"]}]}

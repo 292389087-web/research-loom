@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="30" time="16.394" timestamp="2026-09-22T00:06:59.640950" hostname="DESKTOP-CA6MU2Q"><testcase classname="tests.test_research_data" name="test_platform_rounds_snapshot_reward_definition_and_permissions" time="0.281" /><testcase classname="tests.test_research_data" name="test_demo_snapshot_analysis_chart_and_audit" time="0.087" /><testcase classname="tests.test_research_data" name="test_csv_rejects_ambiguous_or_invalid_data[g,1,m,NaN,kWh,p,evaluation]" time="0.047" /><testcase classname="tests.test_research_data" name="test_csv_rejects_ambiguous_or_invalid_data[g,1,m,1,kWh,p,unknown]" time="0.047" /><testcase classname="tests.test_research_data" name="test_csv_rejects_ambiguous_or_invalid_data[g,1,m,1,kWh,p,evaluation\ng,1,m,2,kWh,p,evaluation]" time="0.049" /><testcase classname="tests.test_research_data" name="test_csv_rejects_ambiguous_or_invalid_data[g,1,m,1,kWh,p,evaluation\nh,1,m,2,Wh,p,evaluation]" time="0.048" /><testcase classname="tests.test_research_data" name="test_csv_rejects_ambiguous_or_invalid_data[g,1,m,,kWh,p,evaluation]" time="0.047" /><testcase classname="tests.test_research_data" name="test_incompatible_protocol_no_delta_no_ranking" time="0.075" /><testcase classname="tests.test_research_data" name="test_data_api_natural_plan_uses_ledger_and_clarifies" time="0.297" /><testcase classname="tests.test_research_data" name="test_dataset_permission_is_not_overridden_by_task" time="0.064" /><testcase classname="tests.test_research_data" name="test_audit_binds_immutable_draft_and_rejects_wrong_statement" time="0.118" /><testcase classname="tests.test_research_data" name="test_csv_export_and_chart_escape_untrusted_labels" time="0.072" /><testcase classname="tests.test_workspace" name="test_router_privacy_complexity_busy_images" time="0.091" /><testcase classname="tests.test_workspace" name="test_remote_contract_no_secret_in_usage_and_no_redirect" time="0.003" /><testcase classname="tests.test_workspace" name="test_router_ledger_budget_and_revocation" time="0.261" /><testcase classname="tests.test_workspace" name="test_gpu_wait_does_not_spend_model_budget" time="0.132" /><testcase classname="tests.test_workspace" name="test_metadata_revision_draft_and_citation_anchors" time="0.414" /><testcase classname="tests.test_workspace" name="test_real_subprocess_search_repeats_and_chatbi" time="2.598" /><testcase classname="tests.test_workspace" name="test_faults_not_success_or_repeated_samples[changed]" time="0.091"><failure message="ValueError: 训练预检失败：源码与冻结计划不一致，请新建计划">tmp_path = WindowsPath('C:/Users/zy202/AppData/Local/Temp/pytest-of-zy202/pytest-49/test_faults_not_success_or_rep0')
+failure = 'changed'
+
+    @pytest.mark.parametrize("failure", ["changed", "nan", "timeout"])
+    def test_faults_not_success_or_repeated_samples(tmp_path, failure):
+        script = "import time; time.sleep(30)" if failure == "timeout" else None
+        if failure == "nan":
+            script = "import sys\nfrom pathlib import Path\nPath(sys.argv[-1],'metrics.json').write_text('{\"loss\":NaN}')"
+        store, study, root = setup_study(tmp_path, script)
+        if failure == "changed":
+            (root / "train.py").write_text("raise AssertionError()", encoding="utf-8")
+        if failure == "timeout":
+            spec = StudySpec.model_validate(
+                {**study["spec"], "trial_timeout": 1, "max_trials": 1, "seeds": [11]}
+            )
+            study = create_study(store, spec)
+&gt;       start_study(store, study["id"])
+
+tests\test_workspace.py:359: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+store = &lt;loom.store.Store object at 0x00000299D2097CB0&gt;
+sid = 'study_fd89302d47cc49c2'
+
+    def start_study(store, sid):
+        from .preflight import check_preflight
+        frozen = get_study(store, sid)
+        if frozen['status'] != 'draft':
+            raise IdempotencyConflict('计划已启动；重复启动不会产生额外试验')
+        preflight = check_preflight(frozen['manifest']['adapter'], frozen['manifest'])
+        event(store, sid, 'preflight', preflight)
+        if not preflight['passed']:
+&gt;           raise ValueError('训练预检失败：' + '; '.join(preflight['errors']))
+E           ValueError: 训练预检失败：源码与冻结计划不一致，请新建计划
+
+loom\experiments.py:354: ValueError</failure></testcase><testcase classname="tests.test_workspace" name="test_faults_not_success_or_repeated_samples[nan]" time="2.516" /><testcase classname="tests.test_workspace" name="test_faults_not_success_or_repeated_samples[timeout]" time="1.919" /><testcase classname="tests.test_workspace" name="test_gpu_lock_process_death_and_duplicate_attempt" time="0.791" /><testcase classname="tests.test_workspace" name="test_dispatcher_restart_keeps_running_training_identity" time="1.584" /><testcase classname="tests.test_workspace" name="test_training_sdk_atomic_metrics_and_bounded_progress" time="0.015" /><testcase classname="tests.test_workspace" name="test_api_controller_requires_authorised_outbound_summary" time="0.002" /><testcase classname="tests.test_workspace" name="test_api_controller_only_offers_one_parameter_neighbours" time="0.002" /><testcase classname="tests.test_workspace" name="test_external_watchdog_stops_native_gil_block" time="2.994" /><testcase classname="tests.test_workspace" name="test_decimal_audit_units_and_provenance" time="0.081" /><testcase classname="tests.test_workspace" name="test_analysis_natural_language_uses_fixed_operations" time="0.280" /><testcase classname="tests.test_cpu_demo" name="test_cpu_demo_without_training_dependencies" time="0.767" /></testsuite></testsuites>

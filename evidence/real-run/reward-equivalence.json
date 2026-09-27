@@ -1,0 +1,6 @@
+{
+  "cases": 501,
+  "all_scalar_rewards_exactly_equal": true,
+  "max_component_sum_error": 2.1316282072803006e-14,
+  "purpose": "isolated reward diagnostics regression; not a training performance benchmark"
+}

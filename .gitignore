@@ -1,0 +1,9 @@
+data/
+__pycache__/
+.pytest_cache/
+*.pyc
+.venv/
+*.log
+config/deepseek.local.toml
+config/*.local.toml
+dist/

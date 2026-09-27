@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>研途 · Research Loom</title>
+  <link rel="stylesheet" href="/assets/styles.css">
+  <script defer src="/assets/app.js"></script>
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="brand" href="/"><span class="brand-icon">研</span><span>研途<small>RESEARCH LOOM</small></span></a>
+    <div class="nav-caption">研究工作台</div>
+    <button class="nav-item active" id="newWorkspace"><span>▦</span> 论文与研究</button>
+    <a class="nav-item" href="/workspace">↗ 文献、引用与实验室</a>
+    <div class="section-heading"><span>我的论文</span><span id="paperCount">0</span></div>
+    <label class="upload-zone" id="dropZone"><span class="upload-icon">＋</span><strong>添加论文 PDF</strong><small>拖放文件，或点击选择 · 最大 40 MB</small><input id="fileInput" type="file" accept="application/pdf" multiple hidden></label>
+    <div id="uploadStatus" class="upload-status" role="status"></div>
+    <div id="paperList" class="paper-list"></div>
+    <div class="section-heading history-heading"><span>研究记录</span><button class="icon-button" id="refreshHistory" title="刷新记录">↻</button></div>
+    <div id="history" class="history"></div>
+    <div class="sidebar-footer"><span class="status-dot"></span><span>资料本地保存，外发由你控制<small id="modelStatus">检查本地模型…</small></span></div>
+  </aside>
+
+  <main>
+    <header class="topbar"><div><span class="breadcrumb">工作空间</span><span class="separator">/</span><span>论文与研究</span></div><span class="model-pill">Qwen3-VL <b>4B</b></span></header>
+    <div class="workspace">
+      <section class="intro"><div class="eyebrow">READ WITH PURPOSE. RESEARCH WITH EVIDENCE.</div><h1>从读懂一篇论文，<br>到找到下一步研究。</h1><p>连接方法、图表与实验，形成有依据、可验证的研究计划。</p></section>
+      <section class="composer" aria-label="创建研究任务">
+        <div class="composer-header"><span class="small-label">研究目标</span><span id="selectionCount">尚未选择论文</span></div>
+        <textarea id="question" rows="3" placeholder="例如：作者的关键设计解决了什么问题？如果沿这个方向继续研究，我该怎样选择基线、评价指标和消融实验？"></textarea>
+        <div class="mode-row" role="group" aria-label="研究模式">
+          <button class="mode active" data-mode="understand">◎ 读懂论文</button><button class="mode" data-mode="plan">⌁ 探索研究方向</button><button class="mode" data-mode="question">↗ 带证据追问</button><button class="mode" data-mode="figure">▧ 理解图与架构</button>
+        </div>
+        <details class="profile-details"><summary>模型路由与外发许可</summary><div class="profile-grid"><label>路由<select id="modelPolicy"><option value="auto">自动：简单任务优先本地</option><option value="local">仅本地</option><option value="api">增强 API</option></select></label><label><input type="checkbox" id="allowRemote">允许本次问题及获许可文献发给 API</label><label><input type="checkbox" id="allowRemoteImages">同时允许图片外发</label><p>文献许可在文献库单独设置。GPU 正忙时，仅本地任务会等待；复杂任务也不能绕过许可。</p></div></details>
+        <div class="figure-controls hidden" id="figureControls"><label>PDF 页码<input id="figurePage" type="number" value="1" min="1" max="100"></label><label>阅读区域<select id="figureRegion"><option value="full">整页</option><option value="top">上半页</option><option value="bottom">下半页</option></select></label><span>多篇选择时读取第一篇；也可在原文预览中发起。</span></div>
+        <details class="profile-details"><summary>我的研究背景与资源 <span>让方案更符合你的实际条件</span></summary><div class="profile-grid"><label>研究兴趣<input id="interests" placeholder="强化学习、多模态、LLM 推理…"></label><label>已有基础<input id="experience" placeholder="熟悉 PyTorch，复现过 PPO…"></label><label>可用算力<input id="compute" value="单张消费级 GPU"></label><label>可投入时间<input id="timeline" placeholder="例如：8 周，每周 20 小时"></label></div></details>
+        <div class="composer-footer"><span id="followupHint">从左侧选择一篇或多篇论文开始</span><button class="primary" id="startRun">开始研究 <span>↗</span></button></div>
+      </section>
+      <section id="progressPanel" class="progress-panel hidden"><div class="progress-title"><span class="pulse-dot"></span><strong id="progressTitle">研究进行中</strong><button id="cancelRun" class="text-button">取消任务</button><button id="retryRun" class="text-button hidden">从断点重试</button></div><p id="latestEvent">等待执行…</p><details><summary>查看执行记录</summary><ol id="eventList"></ol><a id="traceLink" class="text-button" target="_blank" rel="noopener">Trace JSON</a></details></section>
+      <section id="welcome" class="welcome"><div class="section-heading"><span>你可以从这些问题出发</span><span class="muted">围绕问题，组织证据</span></div><div class="starter-grid"><button class="starter" data-prompt="请结合框架图与正文，解释各模块如何协作，哪些是作者的关键设计？" data-mode="understand"><span>01 / 方法理解</span><h3>看懂设计背后的理由</h3><p>连接框架、模块与作者想解决的问题。</p><b>↗</b></button><button class="starter" data-prompt="论文想证明哪些主张？请对应列出实验、评价指标、基线与消融，并说明我做类似研究需要验证什么。" data-mode="understand"><span>02 / 实验论证</span><h3>知道应该怎样做实验</h3><p>理解指标与对照的作用，建立验证思路。</p><b>↗</b></button><button class="starter" data-prompt="结合论文的方法与限制，提出适合我资源的研究切入点，给出可证伪的假设和实验方案。" data-mode="plan"><span>03 / 研究规划</span><h3>找到值得验证的下一步</h3><p>从已有证据出发，探索具体研究假设。</p><b>↗</b></button></div><div class="scope-note"><span>◈</span><p>每一次研究都保留依据。原文、模型推断与研究假设分别标记；新颖性需要进一步检索验证。</p></div></section>
+      <section id="results" class="results hidden"><div class="result-header"><div><div class="eyebrow">RESEARCH NOTE</div><h2 id="resultTitle">论文研究笔记</h2></div><div class="exports"><a id="exportMd" class="secondary">导出 Markdown</a><a id="exportJson" class="text-button">JSON</a></div></div><div id="resultScope" class="result-scope"></div><div id="resultStats" class="result-stats"></div><div id="resultTabs" class="result-tabs"></div><div id="resultContent"></div><div id="openQuestions"></div></section>
+    </div>
+  </main>
+  <aside id="viewer" class="viewer hidden" aria-label="原文证据预览"><header><div><span class="eyebrow">SOURCE EVIDENCE</span><strong id="viewerTitle">论文原文</strong></div><button id="closeViewer" class="icon-button" aria-label="关闭原文预览">×</button></header><div class="viewer-toolbar"><button id="prevPage" class="icon-button" aria-label="上一页">←</button><span id="viewerPage"></span><button id="nextPage" class="icon-button" aria-label="下一页">→</button><a id="openPdf" target="_blank" rel="noopener">打开 PDF ↗</a></div><div class="page-scroll"><div class="page-image-wrap"><img id="pageImage" alt="论文页面"><div id="evidenceHighlight" class="evidence-highlight hidden"></div></div></div><div class="evidence-quote"><span id="evidenceType">原文片段</span><p id="quoteText">点击研究结果中的引用，可定位对应原文。</p></div><button id="readThisPage" class="primary">用 Qwen3-VL 理解这一页 ↗</button></aside>
+  <dialog id="reviewDialog"><form method="dialog"><h3>人工复核记录</h3><p>保留你的判断，模型生成的原始结果不会被覆盖。</p><label>判断<select id="reviewVerdict"><option value="accepted">已核对，可以采用</option><option value="needs_revision">需要修改或补充证据</option></select></label><label>备注<textarea id="reviewNote" rows="4" placeholder="记录依据、疑问或需要修订的内容…"></textarea></label><div class="dialog-actions"><button value="cancel" class="secondary">取消</button><button id="saveReview" type="button" class="primary">保存复核</button></div></form></dialog>
+  <div id="toast" class="toast hidden" role="alert"></div>
+</body>
+</html>

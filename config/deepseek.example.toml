@@ -1,0 +1,10 @@
+# 复制为 deepseek.local.toml，在该本地文件中填写 api_key。
+[remote]
+api_key = ""
+base_url = "https://api.deepseek.com"
+model = "deepseek-flash"
+vision = true
+thinking = "enabled"
+reasoning_effort = "high"
+thinking_max_tokens = 32768
+output_token_budget = 131072

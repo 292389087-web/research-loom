@@ -1,0 +1,5 @@
+group,seed,metric,value,unit,protocol,phase
+baseline,11,grid_energy,100,kWh,synthetic-fixed-v1,evaluation
+baseline,23,grid_energy,102,kWh,synthetic-fixed-v1,evaluation
+candidate,11,grid_energy,95,kWh,synthetic-fixed-v1,evaluation
+candidate,23,grid_energy,96,kWh,synthetic-fixed-v1,evaluation

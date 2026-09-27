@@ -1,0 +1,7 @@
+{
+  "entries": [
+    {"pattern": "docs/environment.json"},
+    {"pattern": "docs/REPRODUCIBILITY.md"},
+    {"pattern": "docs/SEMANTIC_EVALUATION.md"}
+  ]
+}

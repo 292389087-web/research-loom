@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="0" skipped="0" tests="1" time="3.011" timestamp="2026-09-22T00:31:41.845854" hostname="DESKTOP-CA6MU2Q"><testcase classname="tests.test_engineering_hardening" name="test_daily_tampering_cannot_rewrite_snapshot" time="2.566" /></testsuite></testsuites>
